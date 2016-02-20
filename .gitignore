@@ -25,12 +25,6 @@ $RECYCLE.BIN/
 # =========================
 
 .DS_Store
-
-
-
-.*~
-.class
-/bin/
 .AppleDouble
 .LSOverride
 
@@ -51,18 +45,6 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
-<<<<<<< HEAD
-
-# To get rid of tilde files
-*~
-
-# Unnecessary to sync these to github
-*.class
-*.classpath
-*.project
-*.properties
-=======
->>>>>>> origin/master
 /bin/
-
-*.xml
+.class
+.*~

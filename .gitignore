@@ -48,6 +48,7 @@ Temporary Items
 
 #to get rid of tilde files
 *~
-Kevin/.classpath
+
+#MAXIMUN DISCRIMINATION
 *.class
-/bin/
+*.classpath

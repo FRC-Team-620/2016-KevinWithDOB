@@ -46,10 +46,12 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-#to get rid of tilde files
+# To get rid of tilde files
 *~
 
-#MAXIMUN DISCRIMINATION
+# Unnecessary to sync these to github
 *.class
 *.classpath
+*.project
+*.properties
 /bin/

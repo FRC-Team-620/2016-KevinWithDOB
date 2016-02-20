@@ -20,19 +20,49 @@ import org.usfirst.frc620.Kevin.Robot;
  */
 public class DriveWithJoystick extends Command {
 	
+	/**
+	 * Used by the mapstick() method to only print stuff once instead of spamming the console.
+	 */
 	double[] axisValues;
+	
+	/**
+	 * Used by the mapstick() method to only print stuff once instead of spamming the console.
+	 */
 	boolean[] buttonPrints;
 	
-	int clock = 0;
+	/**
+	 * Used by the mapstick() method to limit the frequency of prints. Don't touch unless you
+	 * know what you are doing.
+	 */
+	private int clock = 0;
 	
+	/**
+	 * The XBox controller. Use getRawAxis(axis) and getRawButton(button) to get data. <br>
+	 * For button and axis numbers, consult will's notebook or use the mapstick() method in
+	 * the main execute loop and enable prints on the console.
+	 */
 	Joystick stick;
-
+	
+	/**
+	 * Used to ensure trigger-based code only runs once
+	 */
 	boolean leftTrigger = false;
+	
+	/**
+	 * Used to ensure trigger-based code only runs once
+	 */
 	boolean rightTrigger = false;
 	
-	double direction = 0;
-	boolean straight = false;
+	/**
+	 * Forces the robot to go perfectly straight if the driver wants to go straight,<br>
+	 * handled based on joystick input, not to be changed elsewhere in the code.
+	 */
+	private boolean straight = false;
 	
+	/**
+	 * There are three speed modes: -1, 0, and 1. <br>
+	 * -1 moves at 60% speed, 0 moves at 80%, 1 moves at 100%
+	 */
 	int speedMode = 1;
 	
 	/**
@@ -72,13 +102,16 @@ public class DriveWithJoystick extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	
-    	stick = Robot.oi.getJoystick();
+    	stick = Robot.oi.getJoystick(); //Gets the joystick from the oi
     	
     	axisValues = new double[stick.getAxisCount()];
     	buttonPrints = new boolean[stick.getButtonCount()];
     	
     }
-
+    
+    /**
+     * This method is called to make the robot move. This is mine, no touchy.
+     */
     protected void drive() {
     	
     	double forward = 0, turn = 0, throttle = 0;
@@ -142,6 +175,11 @@ public class DriveWithJoystick extends Command {
     	
     }
     
+    /**
+     * To use this, call it in the main execute() method and enable prints in the console.
+     * Then, press buttons or move axises on the controller and it will print out what button
+     * or axis you moved or pushed.
+     */
     public void mapStick() {
     	clock++;
     	if(clock >= 5) {

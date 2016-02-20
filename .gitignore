@@ -52,5 +52,4 @@ Temporary Items
 #MAXIMUN DISCRIMINATION
 *.class
 *.classpath
-.project
 /bin/

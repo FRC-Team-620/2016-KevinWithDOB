@@ -45,11 +45,4 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
-
-#to get rid of tilde files
-*~
-
-#MAXIMUN DISCRIMINATION
-*.class
-*.classpath
 /bin/

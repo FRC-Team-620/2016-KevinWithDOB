@@ -78,7 +78,6 @@ public class RobotMap {
         
         forkliftCompressor = new Compressor(0);
         
-        
         forkliftTopSolenoid = new DoubleSolenoid(0, 0, 1);
         LiveWindow.addActuator("Forklift", "TopSolenoid", forkliftTopSolenoid);
         

@@ -45,6 +45,7 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+<<<<<<< HEAD
 
 # To get rid of tilde files
 *~
@@ -54,4 +55,8 @@ Temporary Items
 *.classpath
 *.project
 *.properties
+=======
+>>>>>>> origin/master
 /bin/
+
+*.xml

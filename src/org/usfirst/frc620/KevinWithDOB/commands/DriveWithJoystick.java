@@ -11,10 +11,9 @@
 
 package org.usfirst.frc620.KevinWithDOB.commands;
 
-import org.usfirst.frc620.KevinWithDOB.Robot;
-
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.*;
+import org.usfirst.frc620.KevinWithDOB.Robot;
 
 /**
  *
@@ -120,28 +119,45 @@ public class DriveWithJoystick extends Command {
     	forward = stick.getRawAxis(1);
 		turn = stick.getRawAxis(0);
 		
-		if(!leftTrigger && stick.getRawAxis(3) > 0.7) {
-			speedMode++;
-			speedMode = Math.min(speedMode, 1);
+		if((barrierMode & 1) == 0) { //if not in barrier mode
+			if(!leftTrigger && stick.getRawAxis(3) > 0.7) { //if the left trigger was just pressed
+				speedMode++;
+				speedMode = Math.min(speedMode, 1); //make sure the speedMode doesn't go over 1
+			}
+			if(!rightTrigger && stick.getRawAxis(2) > 0.7) { //if the right trigger was just pressed
+				speedMode--;
+				speedMode = Math.max(speedMode, -1); //make sure the speedMode doesn't go under -1
+			}
+			
+			leftTrigger = stick.getRawAxis(3) > 0.7;
+			rightTrigger = stick.getRawAxis(2) > 0.7;
+			
+			if(speedMode == 1)
+				throttle = 1.0;
+			if(speedMode == 0)
+				throttle = 0.8;
+			if(speedMode == -1) 
+				throttle = 0.6;
+		} else { //if in barrier mode
+			if(!leftTrigger && stick.getRawAxis(3) > 0.7) { //if left trigger just pressed
+				//new ExtendTopSolenoid();
+			}
+			if(!rightTrigger && stick.getRawAxis(2) > 0.7) { //if right trigger just pressed
+				//new ExtendBottomSolenoid();
+			}
+			if(leftTrigger && !(stick.getRawAxis(3) > 0.7)) { //if left trigger just released
+				//new RetractTopSolenoid();
+			}
+			if(rightTrigger && !(stick.getRawAxis(2) > 0.7)) { //if right trigger just released
+				//new RetractBottomSolenoid();
+			}
+			leftTrigger = stick.getRawAxis(3) > 0.7;
+			rightTrigger = stick.getRawAxis(2) > 0.7;
 		}
-		if(!rightTrigger && stick.getRawAxis(2) > 0.7) {
-			speedMode--;
-			speedMode = Math.max(speedMode, -1);
-		}
-		leftTrigger = stick.getRawAxis(3) > 0.7;
-		rightTrigger = stick.getRawAxis(2) > 0.7;
-		
-		if(speedMode == 1)
-			throttle = 1.0;
-		if(speedMode == 0)
-			throttle = 0.8;
-		if(speedMode == -1) 
-			throttle = 0.6;
-    	
     	if(forward > 0.9)
     		forward = 1;
-    	if(Math.abs(turn)<0.2) {
-    		if(!straight) {
+    	if(Math.abs(turn) < 0.1) {
+    		if(!straight) { //if just switched into drive straight mode, lock onto a direction
     			
     			straight = true;
     		}
@@ -151,14 +167,14 @@ public class DriveWithJoystick extends Command {
     	} else
     		straight = false;
     	
-    	if((barrierMode & 4) > 0)
-			barrierMode ^= 4;
-		if(stick.getRawButton(2)) {
-			if((barrierMode & 2) == 0)
-				barrierMode ^= 7;
-		} else
-			if(barrierMode != (barrierMode &= 5))
-		 		barrierMode |= 4;
+    	if((barrierMode & 4) > 0)      //This whole block is too fancy pants to explain in comments.
+			barrierMode ^= 4;          //See me for a specific explanation if you need to change it.
+		if(stick.getRawButton(2)) {    //Basically this just stores three booleans in one short type variable.
+			if((barrierMode & 2) == 0) //It handles barrier mode and makes it toggle when the driver presses 'B'.
+				barrierMode ^= 7;      //Frankly, I don't even remember how it works.
+		} else                         //I wrote this in my head at 5 am and on a computer in the library
+			if(barrierMode != (barrierMode &= 5)) //frantically at like 3pm and then emailed it to myself.
+		 		barrierMode |= 4;      //So hopefully we don't need to change it ever.
     	
 		if((barrierMode & 1) > 0) {
 			throttle = 0.5;
@@ -166,6 +182,8 @@ public class DriveWithJoystick extends Command {
 		
 		if((barrierMode & 6) == 6) {
 			if((barrierMode & 1) == 1) {
+				//new RetractAllSolenoids(); // <- This is really bad form but I didn't code it this is how wipilib does it.
+										   //    constructors aren't supposed to do stuff other than construct the instance.
 				//TODO Setup barrier mode
 			} else {
 				//TODO Take down barrier mode
@@ -183,23 +201,23 @@ public class DriveWithJoystick extends Command {
      */
     public void mapStick() {
     	clock++;
-    	if(clock >= 5) {
-	    	for(int x = 0; x < stick.getAxisCount(); x++) {
+    	if(clock >= 5) { //Every five executes this command does stuff.
+	    	for(int x = 0; x < stick.getAxisCount(); x++) { //For every joystick axis
 	    		try {
-		    		if(Math.abs(stick.getRawAxis(x)-axisValues[x]) > 0.2) {
-		    			System.out.println("Axis "+x+" Moved to "+stick.getRawAxis(x));
+		    		if(Math.abs(stick.getRawAxis(x)-axisValues[x]) > 0.2) { //If the joystick is moved
+		    			System.out.println("Axis "+x+" Moved to "+stick.getRawAxis(x)); //Print out the value of the joystick
 		    		}
-		    		axisValues[x] = stick.getRawAxis(x);
+		    		axisValues[x] = stick.getRawAxis(x); //Keep track of the value to detect if the joystick moves
 	    		} catch(Exception e) {
 	    			System.out.println(e.getMessage());
 	    		}
 	    	}
 	    	for(int x = 1; x <= stick.getButtonCount(); x++) {
 	    		try {
-	    			if(stick.getRawButton(x) & !buttonPrints[x-1]) {
-	    				System.out.println("Button "+x);
+	    			if(stick.getRawButton(x) & !buttonPrints[x-1]) { //If a button is pressed
+	    				System.out.println("Button "+x); //Print it out
 	    			}
-	    			buttonPrints[x-1] = stick.getRawButton(x);
+	    			buttonPrints[x-1] = stick.getRawButton(x); //Keep track of what buttons are being held down
 	    		} catch(Exception e) {
 	    			System.out.println(e.getMessage());
 

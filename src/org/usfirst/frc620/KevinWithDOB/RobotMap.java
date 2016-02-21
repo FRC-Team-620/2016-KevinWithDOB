@@ -44,7 +44,7 @@ public class RobotMap {
     public static Compressor forkliftCompressor;
     public static DoubleSolenoid forkliftTopSolenoid;
     public static DoubleSolenoid forkliftBottomSolenoid;
-    public static DigitalInput sensorsOpticalSensor;
+    public static DigitalInput OpticalSensor;
     public static Ultrasonic sensorsLidar;
     public static Encoder sensorsEncoderL;
     public static Encoder sensorsEncoderR;
@@ -74,7 +74,7 @@ public class RobotMap {
         driveTrainRobotDrive.setSensitivity(0.5);
         driveTrainRobotDrive.setMaxOutput(1.0);
 
-        dOBWindowMotor = new CANTalon(4);
+        dOBWindowMotor = new CANTalon(5);
         LiveWindow.addActuator("DOB", "WindowMotor", dOBWindowMotor);
         
         forkliftCompressor = new Compressor(0);
@@ -86,17 +86,17 @@ public class RobotMap {
         forkliftBottomSolenoid = new DoubleSolenoid(0, 2, 3);
         LiveWindow.addActuator("Forklift", "BottomSolenoid", forkliftBottomSolenoid);
         
-        sensorsOpticalSensor = new DigitalInput(0);
-        LiveWindow.addSensor("Sensors", "OpticalSensor", sensorsOpticalSensor);
+        OpticalSensor = new DigitalInput(4);
+        LiveWindow.addSensor("Sensors", "OpticalSensor", OpticalSensor);
         
         sensorsLidar = new Ultrasonic(2, 3);
         LiveWindow.addSensor("Sensors", "Lidar", sensorsLidar);
         
-        sensorsEncoderL = new Encoder(1, 4, false, EncodingType.k4X);
+        sensorsEncoderL = new Encoder(0, 1, false, EncodingType.k4X);
         LiveWindow.addSensor("Sensors", "EncoderL", sensorsEncoderL);
         sensorsEncoderL.setDistancePerPulse(1.0);
         sensorsEncoderL.setPIDSourceType(PIDSourceType.kRate);
-        sensorsEncoderR = new Encoder(5, 6, false, EncodingType.k4X);
+        sensorsEncoderR = new Encoder(2, 3, false, EncodingType.k4X);
         LiveWindow.addSensor("Sensors", "EncoderR", sensorsEncoderR);
         sensorsEncoderR.setDistancePerPulse(1.0);
         sensorsEncoderR.setPIDSourceType(PIDSourceType.kRate);

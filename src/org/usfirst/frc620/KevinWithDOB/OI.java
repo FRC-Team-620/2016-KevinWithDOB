@@ -71,7 +71,7 @@ public class OI {
 
 
         // SmartDashboard Buttons
-        SmartDashboard.putData("DriveWithJoystick", new DriveWithJoystick());
+        SmartDashboard.putData("DriveWithJoystick", new DriveWithJoystickOld());
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
         SmartDashboard.putData("BarrierMode", new BarrierMode());
         SmartDashboard.putData("DevourExpel", new DevourExpel());

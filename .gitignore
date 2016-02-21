@@ -48,4 +48,4 @@ Temporary Items
 /bin/
 .class
 .*~
-.gitignore
+*~

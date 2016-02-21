@@ -9,11 +9,10 @@
 // it from being updated in the future.
 
 
-package org.usfirst.frc620.KevinWithDOB.commands;
-
-import org.usfirst.frc620.KevinWithDOB.subsystems.*;
+package org.usfirst.frc620.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import org.usfirst.frc620.subsystems.*;
 
 /**
  *
@@ -29,7 +28,6 @@ public class BarrierMode extends CommandGroup {
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
-    	
 
         // To run multiple commands at the same time,
         // use addParallel()
